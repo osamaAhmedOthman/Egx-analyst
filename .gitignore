@@ -1,0 +1,33 @@
+# --- Virtual Environment ---
+venv/
+.venv/
+env/
+
+# --- Environment Variables & Secrets ---
+.env
+*.env
+
+# --- Python & System Caches ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Local Project Data & Artifacts ---
+# Prevents committing heavy raw data and local MLflow databases
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+mlruns/
+mlflow.db
+*.joblib
+*.pkl
+
+# --- IDE & OS Files ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

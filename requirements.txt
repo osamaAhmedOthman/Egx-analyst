@@ -1,0 +1,29 @@
+# --- Core Data & Machine Learning Layer ---
+yfinance>=0.2.40
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
+lightgbm>=4.3.0
+xgboost>=2.0.0
+optuna>=3.6.0
+mlflow>=3.14.0
+joblib>=1.3.2
+
+# --- API Layer (FastAPI) ---
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.6.0
+
+# --- Agent Layer (LangGraph & LLMs) ---
+langgraph>=1.2.7
+langchain-core>=0.2.0
+langchain-groq>=0.1.0
+tavily-python>=0.3.0
+python-dotenv>=1.0.1
+
+# --- UI Layer ---
+streamlit>=1.32.0
+
+# --- Development & Testing ---
+pytest>=8.0.0
+ipykernel>=6.29.0
