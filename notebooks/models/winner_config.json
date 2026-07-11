@@ -1,0 +1,32 @@
+{
+  "COMI_CA": {
+    "model": "XGBoost",
+    "run_id": "c941878a16a54ff687951f765f5b8bf8",
+    "val_roc_auc": 0.545,
+    "val_f1": 0.5517
+  },
+  "HRHO_CA": {
+    "model": "XGBoost",
+    "run_id": "e02f44b173634f3ea799ce01baf6fb82",
+    "val_roc_auc": 0.5496,
+    "val_f1": 0.5089
+  },
+  "ORWE_CA": {
+    "model": "LightGBM",
+    "run_id": "0b4f5f2e13b644d99d6a8d99d813024e",
+    "val_roc_auc": 0.5489,
+    "val_f1": 0.5446
+  },
+  "SWDY_CA": {
+    "model": "RandomForest",
+    "run_id": "aa24bf99cebc42b6baa3c6e06e3a934f",
+    "val_roc_auc": 0.5133,
+    "val_f1": 0.5704
+  },
+  "TMGH_CA": {
+    "model": "LightGBM",
+    "run_id": "cfd0ad38a2ed4024a444e9ccd87e7b5a",
+    "val_roc_auc": 0.5209,
+    "val_f1": 0.4076
+  }
+}

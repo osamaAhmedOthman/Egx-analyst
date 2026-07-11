@@ -1,0 +1,92 @@
+{
+  "COMI_CA": {
+    "model": "XGBoost",
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 4,
+      "learning_rate": 0.08948638193179499,
+      "min_child_weight": 18,
+      "subsample": 0.7977274633922923,
+      "colsample_bytree": 0.7398766541693323,
+      "reg_alpha": 3.4805749095314273,
+      "reg_lambda": 6.446206068296873,
+      "gamma": 1.6339637005138417
+    },
+    "tuned_val_roc_auc": 0.5267,
+    "tuned_val_f1": 0.5249,
+    "overfit_gap": 0.2352,
+    "parent_run_id": "c425ffee12de47cfb587f17b50c0ac21",
+    "optimal_threshold": 0.2948729693889618
+  },
+  "HRHO_CA": {
+    "model": "XGBoost",
+    "params": {
+      "n_estimators": 50,
+      "max_depth": 2,
+      "learning_rate": 0.01589877345097281,
+      "min_child_weight": 41,
+      "subsample": 0.528662524206753,
+      "colsample_bytree": 0.6834523009914724,
+      "reg_alpha": 6.842575519287799,
+      "reg_lambda": 3.8924761914366317,
+      "gamma": 3.5831824373118297
+    },
+    "tuned_val_roc_auc": 0.5646,
+    "tuned_val_f1": 0.0,
+    "overfit_gap": -0.0244,
+    "parent_run_id": "27bd7ac283614fa3800e87f9b5fda12a",
+    "optimal_threshold": 0.495667427778244
+  },
+  "ORWE_CA": {
+    "model": "LightGBM",
+    "params": {
+      "max_depth": 5,
+      "n_estimators": 82,
+      "num_leaves": 30,
+      "min_child_samples": 44,
+      "learning_rate": 0.015486791110216848,
+      "reg_alpha": 1.4100800291777698,
+      "reg_lambda": 10.707890888236664,
+      "subsample": 0.582637988072063,
+      "colsample_bytree": 0.7086785193277655
+    },
+    "tuned_val_roc_auc": 0.5895,
+    "tuned_val_f1": 0.563,
+    "overfit_gap": 0.1789,
+    "parent_run_id": "53590de6af394ca7a7dfdc74a0f6483f",
+    "optimal_threshold": 0.47434952877280934
+  },
+  "SWDY_CA": {
+    "model": "RandomForest",
+    "params": {
+      "n_estimators": 443,
+      "max_depth": 5,
+      "min_samples_leaf": 90,
+      "max_features": "sqrt"
+    },
+    "tuned_val_roc_auc": 0.5342,
+    "tuned_val_f1": 0.6132,
+    "overfit_gap": 0.1381,
+    "parent_run_id": "0edec94eaff543cdb72a3c670f4e64d4",
+    "optimal_threshold": 0.3570048486253765
+  },
+  "TMGH_CA": {
+    "model": "LightGBM",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 161,
+      "num_leaves": 5,
+      "min_child_samples": 46,
+      "learning_rate": 0.09049533645885266,
+      "reg_alpha": 0.13354460127599047,
+      "reg_lambda": 1.6787782452414954,
+      "subsample": 0.7981241020504719,
+      "colsample_bytree": 0.770271609629313
+    },
+    "tuned_val_roc_auc": 0.5264,
+    "tuned_val_f1": 0.4519,
+    "overfit_gap": 0.3461,
+    "parent_run_id": "8b9d395086e642f2a9516dfcf053505d",
+    "optimal_threshold": 0.31082823367922136
+  }
+}
