@@ -26,6 +26,10 @@ mlflow.db
 *.joblib
 *.pkl
 
+# --- Added Tracking Artifacts to Ignore ---
+notebooks/mlflow_artifacts/
+notebooks/tuning_artifacts/
+
 # --- IDE & OS Files ---
 .vscode/
 .idea/
