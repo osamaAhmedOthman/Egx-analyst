@@ -16,7 +16,7 @@
     "tuned_val_f1": 0.5249,
     "overfit_gap": 0.2352,
     "parent_run_id": "c425ffee12de47cfb587f17b50c0ac21",
-    "optimal_threshold": 0.2948729693889618
+    "optimal_threshold": 0.50
   },
   "HRHO_CA": {
     "model": "XGBoost",
@@ -68,7 +68,7 @@
     "tuned_val_f1": 0.6132,
     "overfit_gap": 0.1381,
     "parent_run_id": "0edec94eaff543cdb72a3c670f4e64d4",
-    "optimal_threshold": 0.3570048486253765
+    "optimal_threshold": 0.50
   },
   "TMGH_CA": {
     "model": "LightGBM",
@@ -87,6 +87,6 @@
     "tuned_val_f1": 0.4519,
     "overfit_gap": 0.3461,
     "parent_run_id": "8b9d395086e642f2a9516dfcf053505d",
-    "optimal_threshold": 0.31082823367922136
+    "optimal_threshold": 0.50
   }
 }
