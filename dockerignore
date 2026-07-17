@@ -1,0 +1,51 @@
+# --- Virtual Environment ---
+venv/
+.venv/
+env/
+
+# --- Environment Variables & Secrets ---
+.env
+*.env
+
+# --- Python & System Caches ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Local Project Data & Artifacts ---
+# models/ and data/ are mounted in via docker-compose volumes at runtime,
+# no need to bake them into the image (also keeps builds fast)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+mlruns/
+mlflow.db
+*.joblib
+*.pkl
+
+# --- Notebooks & Tracking Artifacts ---
+# Not needed at runtime; heavy PNGs/dashboards would bloat the image
+notebooks/
+
+# --- Tests & Docs ---
+tests/
+README.md
+
+# --- Git ---
+.git/
+.gitignore
+
+# --- Docker files themselves ---
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# --- IDE & OS Files ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
