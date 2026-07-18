@@ -156,8 +156,15 @@ with st.spinner(
     try:
         report = run_analysis_cached(ticker)
     except Exception as exc:
-        st.error(f"Analysis failed: {exc}")
-        st.info("Make sure `uvicorn api.main:app --port 8000` is running in another terminal.")
+        err_text = str(exc).lower()
+        if "429" in err_text or "rate limit" in err_text or "usage limit" in err_text:
+            st.warning(
+                "⚠️ We've hit the API rate limit (prediction service or news/LLM provider). "
+                "Please wait a moment and try again."
+            )
+        else:
+            st.error(f"Analysis failed: {exc}")
+            st.info("If this persists, check that the API container is running and reachable.")
         st.stop()
 
 
@@ -330,6 +337,9 @@ def get_chat_response(user_message: str, history: list, report) -> str:
         response = llm.invoke(messages)
         return response.content.strip()
     except Exception as exc:
+        err_text = str(exc).lower()
+        if "429" in err_text or "rate limit" in err_text or "usage limit" in err_text:
+            return "⚠️ The chat assistant has hit its rate limit. Please wait a moment and try asking again."
         return f"Chat error: {exc}"
 
 
