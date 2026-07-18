@@ -106,6 +106,11 @@ def call_prediction_api(ticker: str) -> Dict[str, Any]:
         return {"error": msg, "ticker": ticker}
 
     except httpx.HTTPStatusError as exc:
+        if exc.response.status_code == 429:
+            msg = f"Prediction API rate limit reached for {ticker}. Please try again in a moment."
+            logger.warning(msg)
+            return {"error": msg, "ticker": ticker, "rate_limited": True}
+
         msg = f"Prediction API returned HTTP {exc.response.status_code} for {ticker}: {exc.response.text}"
         logger.error(msg)
         return {"error": msg, "ticker": ticker}
@@ -153,6 +158,8 @@ def search_news(ticker: str, max_results: int = 5) -> List[Dict[str, str]]:
         f"{company['ar']} اخبار البورصة",
     ]
 
+    rate_limited = False
+
     for query in queries:
         try:
             logger.info(f"Tavily search: '{query}'")
@@ -176,8 +183,19 @@ def search_news(ticker: str, max_results: int = 5) -> List[Dict[str, str]]:
                 })
 
         except Exception as exc:
+            # Tavily's client raises plain exceptions without a stable type,
+            # so detect rate limiting from the status code / message text.
+            err_text = str(exc).lower()
+            if "429" in err_text or "rate limit" in err_text or "usage limit" in err_text:
+                logger.warning(f"Tavily rate limit reached on query '{query}': {exc}")
+                rate_limited = True
+                break   # no point retrying the second query if the quota's gone
             logger.warning(f"Tavily search failed for query '{query}': {exc}")
             continue    # try next query before giving up
+
+    if rate_limited and not results:
+        logger.warning(f"News search rate-limited for {ticker} — no articles retrieved")
+        return [{"rate_limited": True}]
 
     logger.info(f"News search complete for {ticker}: {len(results)} articles found")
     return results
@@ -190,6 +208,12 @@ def format_news_for_prompt(news_results: List[Dict[str, str]]) -> str:
     """
     if not news_results:
         return "No recent news articles found for this company."
+
+    if len(news_results) == 1 and news_results[0].get("rate_limited"):
+        return (
+            "News search is temporarily unavailable (rate limit reached). "
+            "This analysis is based on the model prediction only, without recent news context."
+        )
 
     lines = []
     for i, article in enumerate(news_results, 1):
