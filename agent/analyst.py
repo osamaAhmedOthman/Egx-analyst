@@ -79,6 +79,7 @@ def run_analysis(ticker: str) -> AnalysisReport:
             up_probability       = 0.0,
             model_name           = "Unknown",
             prediction_date      = "Unknown",
+            as_of_date           = "Unknown",
             news_summary         = "News search could not be completed.",
             conflict_detected    = False,
             conflict_explanation = None,
@@ -107,6 +108,7 @@ def run_analysis(ticker: str) -> AnalysisReport:
         up_probability       = state.up_probability or 0.0,
         model_name           = state.model_name or "Unknown",
         prediction_date      = state.prediction_date or "Unknown",
+        as_of_date           = state.as_of_date or "Unknown",
         news_summary         = state.news_summary or "No news available.",
         conflict_detected    = state.conflict_detected,
         conflict_explanation = state.conflict_explanation,
@@ -151,6 +153,7 @@ def _print_report(report: AnalysisReport) -> None:
     print(f"  P(UP)           : {report.up_probability*100:.1f}%")
     print(f"  Model           : {report.model_name}")
     print(f"  Prediction Date : {report.prediction_date}")
+    print(f"  As-Of Date      : {report.as_of_date}")
     print(f"  Generated At    : {report.generated_at}")
     print(f"\n  Conflict Detected : {'⚠ YES' if report.conflict_detected else '✓ NO'}")
     if report.conflict_detected and report.conflict_explanation:

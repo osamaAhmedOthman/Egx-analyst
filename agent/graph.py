@@ -66,7 +66,7 @@ def data_fetcher_node(state: AnalystState) -> Dict[str, Any]:
 
     Reads  : state.ticker
     Writes : prediction, confidence, up_probability, model_name,
-             prediction_date, feature_snapshot, api_error
+             prediction_date, as_of_date, feature_snapshot, api_error
     """
     logger.info(f"[data_fetcher] Fetching prediction for {state.ticker}")
 
@@ -82,6 +82,7 @@ def data_fetcher_node(state: AnalystState) -> Dict[str, Any]:
         "up_probability":  result.get("up_probability"),
         "model_name":      result.get("model_name"),
         "prediction_date": result.get("prediction_date"),
+        "as_of_date":      result.get("as_of_date"),
         "feature_snapshot":result.get("feature_snapshot", {}),
         "api_error":       None,
     }

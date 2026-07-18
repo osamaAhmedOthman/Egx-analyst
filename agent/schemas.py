@@ -37,6 +37,7 @@ class AnalystState(BaseModel):
     up_probability:   Optional[float] = Field(default=None)
     model_name:       Optional[str]   = Field(default=None)
     prediction_date:  Optional[str]   = Field(default=None)
+    as_of_date:       Optional[str]   = Field(default=None)
     feature_snapshot: Dict[str, Any]  = Field(default_factory=dict)
     api_error:        Optional[str]   = Field(default=None)   # set if API call fails
 
@@ -69,7 +70,8 @@ class AnalysisReport(BaseModel):
     confidence:           float          = Field(..., description="Model confidence 0–1")
     up_probability:       float          = Field(..., description="Raw P(UP)")
     model_name:           str            = Field(..., description="ML architecture used")
-    prediction_date:      str            = Field(..., description="Feature date used")
+    prediction_date:      str            = Field(..., description="Trading date this prediction is FOR")
+    as_of_date:           str            = Field(..., description="Trading date whose features were used as input")
     news_summary:         str            = Field(..., description="Summarised recent news")
     conflict_detected:    bool           = Field(..., description="True if news contradicts model")
     conflict_explanation: Optional[str]  = Field(default=None,
