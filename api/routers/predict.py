@@ -37,6 +37,7 @@ def _result_to_response(result: PredictionResult) -> PredictionResponse:
         up_probability   = round(result.up_probability, 4),
         threshold        = round(result.threshold, 4),
         prediction_date  = result.prediction_date,
+        as_of_date       = result.as_of_date,
         model_name       = result.model_name,
         feature_snapshot = {
             k: round(float(v), 6) if v is not None else None

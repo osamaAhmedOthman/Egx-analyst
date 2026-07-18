@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -56,7 +56,11 @@ class PredictionResult:
     confidence      : probability of the predicted direction (0.0–1.0)
     up_probability  : raw model output — P(next day UP)
     threshold       : decision boundary used for this ticker
-    prediction_date : the trading date whose features were used
+    prediction_date : the trading date this prediction is FOR (i.e. the next
+                       EGX trading day after the most recent available data,
+                       skipping the Friday–Saturday weekend)
+    as_of_date      : the trading date whose features were used as input
+                       (the most recent day of available market data)
     model_name      : architecture that produced this prediction
     feature_snapshot: dict of the feature values fed to the model
     """
@@ -66,6 +70,7 @@ class PredictionResult:
     up_probability  : float
     threshold       : float
     prediction_date : str
+    as_of_date      : str
     model_name      : str
     feature_snapshot: dict[str, float] = field(default_factory=dict)
 
@@ -77,6 +82,7 @@ class PredictionResult:
             "up_probability":   round(self.up_probability, 4),
             "threshold":        round(self.threshold, 4),
             "prediction_date":  self.prediction_date,
+            "as_of_date":       self.as_of_date,
             "model_name":       self.model_name,
             "feature_snapshot": {
                 k: round(float(v), 6) if pd.notna(v) else None
@@ -133,6 +139,29 @@ def _load_model_name(ticker: str) -> str:
     return "Unknown"
 
 
+def _next_egx_trading_day(last_trading_date: date) -> date:
+    """
+    Compute the next EGX trading day after the given date.
+
+    EGX's weekend is Friday–Saturday (not Saturday–Sunday), so the
+    calculation skips those two days rather than the usual Sat/Sun.
+
+    Parameters
+    ----------
+    last_trading_date : the most recent date for which market data was
+                         available (i.e. the day the input features are from)
+
+    Returns
+    -------
+    The next EGX trading day as a date object.
+    """
+    next_day = last_trading_date + timedelta(days=1)
+    # weekday(): Monday=0 ... Friday=4, Saturday=5, Sunday=6
+    while next_day.weekday() in (4, 5):   # Friday or Saturday
+        next_day += timedelta(days=1)
+    return next_day
+
+
 # ── Public API ────────────────────────────────────────────────────────────────
 
 def predict(ticker: str) -> PredictionResult:
@@ -176,10 +205,14 @@ def predict(ticker: str) -> PredictionResult:
         )
 
     # ── Step 3: Select the most recent complete row ───────────────────────────
-    # This represents today's market state — the input for tomorrow's prediction.
-    latest_row   = engineered.iloc[[-1]]   # keep as DataFrame (1 row) not Series
-    feature_row  = select_features(latest_row, include_target=False)
-    prediction_date = str(latest_row.index[-1].date())
+    # This represents the most recent trading day's market state — the input
+    # used to predict the NEXT trading day's direction.
+    latest_row  = engineered.iloc[[-1]]   # keep as DataFrame (1 row) not Series
+    feature_row = select_features(latest_row, include_target=False)
+
+    as_of_trading_date = latest_row.index[-1].date()
+    as_of_date          = str(as_of_trading_date)
+    prediction_date     = str(_next_egx_trading_day(as_of_trading_date))
 
     # ── Step 4: Load model and threshold ─────────────────────────────────────
     model      = _load_model(ticker)
@@ -207,6 +240,7 @@ def predict(ticker: str) -> PredictionResult:
         up_probability  = up_probability,
         threshold       = threshold,
         prediction_date = prediction_date,
+        as_of_date      = as_of_date,
         model_name      = model_name,
         feature_snapshot= feature_snapshot,
     )

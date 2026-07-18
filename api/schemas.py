@@ -52,7 +52,10 @@ class PredictionResponse(BaseModel):
                         - direction=DOWN → confidence = 1 - P(UP)
     up_probability  : raw model output — P(next day closes higher)
     threshold       : decision boundary applied for this ticker
-    prediction_date : the trading date whose features were used as input
+    prediction_date : the trading date this prediction is FOR — the next
+                      EGX trading day after the most recent available data
+                      (accounts for EGX's Friday–Saturday weekend)
+    as_of_date      : the trading date whose features were used as input
                       (last available market date, not necessarily today)
     model_name      : ML architecture that produced this prediction
     feature_snapshot: the 20 feature values fed to the model — useful for
@@ -66,7 +69,8 @@ class PredictionResponse(BaseModel):
     up_probability:   float                 = Field(..., ge=0.0, le=1.0,
                                                     description="Raw P(UP) from model")
     threshold:        float                 = Field(..., description="Decision boundary used")
-    prediction_date:  str                   = Field(..., description="Date of input features")
+    prediction_date:  str                   = Field(..., description="Trading date this prediction is FOR (the next EGX trading day)")
+    as_of_date:       str                   = Field(..., description="Trading date whose features were used as input (last available market date)")
     model_name:       str                   = Field(..., description="Model architecture")
     feature_snapshot: Dict[str, Optional[float]] = Field(
         default_factory=dict,
@@ -80,7 +84,8 @@ class PredictionResponse(BaseModel):
             "confidence":     0.5712,
             "up_probability": 0.5712,
             "threshold":      0.4743,
-            "prediction_date":"2026-07-09",
+            "prediction_date":"2026-07-19",
+            "as_of_date":     "2026-07-16",
             "model_name":     "LightGBM",
             "feature_snapshot": {
                 "RSI_14": 48.3,
