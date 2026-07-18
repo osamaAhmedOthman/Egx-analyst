@@ -190,7 +190,10 @@ with left:
             '<div class="badge-unknown">— UNKNOWN</div>',
             unsafe_allow_html=True,
         )
-    st.caption(f"Next-day predicted direction  ·  {report.prediction_date}")
+    st.caption(
+        f"Next-day predicted direction  ·  {report.prediction_date}  "
+        f"(based on data through {getattr(report, 'as_of_date', 'N/A')})"
+    )
 
 with mid:
     confidence_pct = round(report.confidence * 100, 1)
@@ -292,7 +295,8 @@ ANALYSIS CONTEXT:
 - Confidence    : {round(report.confidence * 100, 1)}%
 - P(UP)         : {round(report.up_probability * 100, 1)}%
 - Model         : {report.model_name}
-- Date          : {report.prediction_date}
+- Predicting for: {report.prediction_date}
+- Data as of    : {getattr(report, 'as_of_date', 'N/A')}
 - Conflict      : {'YES — ' + (report.conflict_explanation or '') if report.conflict_detected else 'NO'}
 
 ANALYSIS SUMMARY:
