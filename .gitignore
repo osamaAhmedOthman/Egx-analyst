@@ -23,8 +23,6 @@ data/processed/*
 !data/processed/.gitkeep
 mlruns/
 mlflow.db
-*.joblib
-*.pkl
 
 # --- Added Tracking Artifacts to Ignore ---
 notebooks/mlflow_artifacts/

@@ -28,4 +28,4 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app
 
 # Default command runs the API; docker-compose overrides this for the ui service
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}
